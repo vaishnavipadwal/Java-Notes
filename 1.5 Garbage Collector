@@ -1,0 +1,56 @@
+# **Garbage Collection in Java**
+
+The **Garbage Collector (GC)** in Java is an automatic memory management feature that helps in reclaiming memory by removing objects that are no longer in use. It is a part of the Java Runtime Environment (JRE) and works in the background to ensure efficient memory usage without the programmer needing to explicitly free memory.
+
+Here are some key points about the Garbage Collector:
+
+1. **Automatic Memory Management**:
+   - Java uses an automatic garbage collection process to handle memory allocation and deallocation. This ensures that unused objects are removed, preventing memory leaks.
+
+2. **Heap Memory**:
+   - Objects in Java are created in the heap memory. When an object is no longer referenced by any part of the program, it becomes eligible for garbage collection.
+
+3. **Reachability**:
+   - An object is considered eligible for garbage collection when there are no live references pointing to it, meaning it cannot be accessed or used by the program anymore.
+
+4. **Garbage Collection Process**:
+   - The garbage collection process works by identifying unused objects and freeing up memory. It does this by running periodically and identifying unreachable objects.
+   - Java provides different types of GC algorithms like **Mark and Sweep**, **Generational Garbage Collection**, and others.
+
+5. **Stop-the-world Event**:
+   - Garbage collection is typically a "stop-the-world" event, where all application threads are paused temporarily to allow the garbage collector to reclaim memory.
+
+6. **Manual Control**:
+   - Though the garbage collection process is automatic, Java provides hints like `System.gc()` to suggest garbage collection, but the final decision of when to run the garbage collector is up to the JVM.
+
+7. **Performance**:
+   - Although the garbage collector runs automatically, it can impact performance since it pauses the application for a brief period during collection. However, modern JVMs use optimized garbage collectors to minimize the pause time.
+
+8. **Types of Garbage Collectors**:
+   - **Serial GC**: Uses a single thread for garbage collection.
+   - **Parallel GC**: Uses multiple threads to perform garbage collection.
+   - **Concurrent Mark Sweep (CMS)**: Focuses on minimizing pause times.
+   - **G1 (Garbage First) GC**: A more modern and efficient garbage collector that divides the heap into regions and aims to achieve high throughput with low pause times.
+
+
+### **Example to Understand Object Time and GC**
+```java
+class Test {
+    public void finalize() {
+        System.out.println("Object is destroyed by GC");
+    }
+
+    public static void main(String[] args) {
+        Test t1 = new Test();
+        Test t2 = new Test();
+        t1 = null;
+        t2 = null;
+        System.gc(); // Requests GC
+    }
+}
+```
+Output (may vary):  
+```
+Object is destroyed by GC  
+Object is destroyed by GC
+```
